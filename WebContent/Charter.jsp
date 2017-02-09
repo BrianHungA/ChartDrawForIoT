@@ -122,28 +122,29 @@
 
     	
     	//  ============CSSSSSSV TEST==============
+		var dataLabel = [];
 		var dataPoints = [];
+		
         $.ajax({
-			url:"js/dataPoints.csv",
+			url:"Data/gpssensor.csv",
 			dataType:"text",
 			success: function(data) {
 				
 				var csvLines = [];
 	            var points = [];
-	            
+
 	            csvLines = data.split(/\n+/);
-	            alert("csvLines = " + csvLines.length);
+	            alert("csvLines[1] = " + csvLines[1,0]);
 	            for (var i = 0; i < csvLines.length; i++){
 	                if (csvLines[i].length > 0) {
 	                    points = csvLines[i].split(",");
-	                    // dataPoints[i] = "{x:" + points[0] + ",y:" + points[1] + "}";
 	                    dataPoints.push({ 
 	                        x: parseFloat(points[0]), 
-	                        y: parseFloat(points[1]) 		
+	                        y: parseFloat(points[3]) 		
 	                    });
 	                }
 	            };
-				alert("dataPoints = " + dataPoints[0]);
+				alert("dataPointsYYY = " + dataPoints);
 				var DataPlotPoint = {
 						datasets: [{
 				            label: 'Scatter Dataset',
@@ -180,7 +181,7 @@
     	<canvas id="charterBar" class="zone"></canvas>
 	</div>
 	<br>
-	<div class="box">
+	<div>
     	<canvas id="charterCSVLine" class="zone"></canvas>
 	</div>
 </body>

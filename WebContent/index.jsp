@@ -9,7 +9,9 @@
 <body>
 	<form name="myForm" action="ChartDrawing_line.jsp">
 		UserName:<input type="text" name="userName"/>
+		<br>
 		FileName:<input type="text" name="chartNames"/>
+		<br>
 		<input type="submit" name="submitButton" value="submit"/>		
 	</form>
 </body>

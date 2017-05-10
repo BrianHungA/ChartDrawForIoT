@@ -81,6 +81,8 @@
     	//  ============CSSSSSSV TEST==============
 		var dataLabel = [];
 		var dataPoints = [];
+		var dataPoints_Max = [];
+		var dataPoints_min = [];
 //		var urlcsv  = "Data/gpssensor.csv";
 		var urlcsv1 = "Data/daja.csv";
 //		var urlcsv0 = "Data/dataPoints.csv"
@@ -96,22 +98,57 @@
 	            csvLines = data.split(/\n+/);
 	            alert("AA:csvLines[1] = " + csvLines[1,0] + "csvLines.length = " + csvLines.length);
 	            //for (var i = 0; i < csvLines.length; i++){
-	            	for (var i = 0; i < 10000; i++){
+	            //NEW
+/* 	            	for (var i = 0; i < 10000; i++){
 		                if (csvLines[i].length > 0) {
 		                    points = csvLines[i].split(",");
 		                    if(Math.abs(points[3])>=100){
 			                    dataPoints.push(parseFloat(points[3]));
 			                    dataLabel.push(points[0].substr(0,points[0].lastIndexOf(".")));
-		                    }
-			                    
+		                    }      
 		                }
-	            };
+	            }; */
+ 				var points1 = [];
+				var points2 = [];
+				var MaxValue = -500;
+				var minValue = 500;
+				var iii = 0;
+				var jjj = 0;
+				var kkk = 0;
+				var dataColumn = 4;
+//Start
+ 				for(var i = 0; i <csvLines.length; i++){
+					if(csvLines[i].length > 0 && csvLines[i+1].length > 0){
+						points1 = csvLines[i].split(",");
+						points2 = csvLines[i+1].split(",");
+						var dateTime1 = points1[0].replace(/-/g,"/").substring(0,points1[0].indexOf("."));
+						var dateTime2 = points2[0].replace(/-/g,"/").substring(0,points2[0].indexOf("."));
+						/* console.log("dateTime1 = " + dateTime1) */
+						if(dateTime1 == dateTime2){
+							if(parseFloat(points1[dataColumn])>=MaxValue){
+								MaxValue = points1[dataColumn];
+							}else if(parseFloat(points1[dataColumn])<=minValue){
+								minValue = points1[dataColumn];
+								};
+							jjj++;
+						}else{
+							dataPoints_Max.push(parseFloat(MaxValue));
+							dataPoints_min.push(parseFloat(minValue));
+							dataLabel.push(points1[0].substring(0,points1[0].indexOf("."))); 
+							kkk++;
+							MaxValue = -500;
+							minValue = 500;
+							}
+						}
+						
+					};
+	            
 				alert("dataPointsYYY = " + dataPoints[2]);
 				var DataPlotPoint = {
 						labels: dataLabel,
 						datasets: [{
 				            //label: 'Scatter Dataset',
-				            data: dataPoints
+				            data: dataPoints_Max
 				        }]
 						};
 	            var ctx_CSVLine = document.getElementById("charterCSVLine").getContext("2d");
@@ -119,14 +156,13 @@
 	    		    type:"bar",
 	    		    data: DataPlotPoint,
 	    		    options :{
-	        	        scales: {
-	        	            xAxes: [{
-	        	                stacked: true
-	        	            }],
-	        	            yAxes: [{
-	        	                stacked: true
-	        	            }]
-	        	        }
+	    	            series:{
+	    	                stack:true,
+	    	                bars:{show: true}
+	    	            },
+	    	            grid:{
+	    	                backgroundColor: { colors: ["#D9D9D9", "#A8A8A8"] }
+	    	            }
 	        	    }
 	    		      });
 			},

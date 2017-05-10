@@ -77,7 +77,16 @@
     	    }
     	});
 
-    	
+    	//index.jsp TEST
+    	alert("123");
+    	<% 
+    		String reqUserName = request.getParameter("userName");
+    		String reqChartName = request.getParameter("chartNames");
+    	%>
+    	alert("456");
+    	var userName1 = "<%=reqUserName%>";
+    	var chartName1 = "<%=reqChartName%>";
+    	alert("userName = " + userName1 + ";ChartName = " + chartName1);
     	//  ============CSSSSSSV TEST==============
 		var dataLabel = [];
 		var dataPoints = [];
@@ -94,22 +103,63 @@
 	            var points = [];
 
 	            csvLines = data.split(/\n+/);
-	            alert("AA:csvLines[1] = " + csvLines[1,0] + "csvLines.length = " + csvLines.length);
-	            for (var i = 0; i < csvLines.length; i++){
-	            	//for (var i = 0; i < 3000; i++){
+	            alert("AA:csvLines[1] = " + csvLines[1] + "csvLines.length = " + csvLines.length);
+	            //找大於兩百的點，全部Show出來
+/*   	            for (var i = 0; i < csvLines.length; i++){
 		                if (csvLines[i].length > 0) {
 		                    points = csvLines[i].split(",");
-		                    if(Math.abs(points[3])>=200){
+		                    if(Math.abs(points[4])>=200){
 			                    dataPoints.push({ 
 			                        x: points[0],
-			                        y: parseFloat(points[3]),
+			                        y: parseFloat(points[4]),
 			                        //r: 5 		
 			                    });
 		                    }
 			                    
 		                }
 	            };
-				alert("dataPointsYYY = " + dataPoints[2]);
+ */  				
+ 				var points1 = [];
+				var points2 = [];
+				var MaxValue = -500;
+				var minValue = 500;
+				var iii = 0;
+				var jjj = 0;
+				var kkk = 0;
+				var dataColumn = 4;
+//Start
+ 				for(var i = 0; i <csvLines.length; i++){
+					if(csvLines[i].length > 0 && csvLines[i+1].length > 0){
+						points1 = csvLines[i].split(",");
+						points2 = csvLines[i+1].split(",");
+						var dateTime1 = points1[0].replace(/-/g,"/").substring(0,points1[0].indexOf("."));
+						var dateTime2 = points2[0].replace(/-/g,"/").substring(0,points2[0].indexOf("."));
+						/* console.log("dateTime1 = " + dateTime1) */
+						if(dateTime1 == dateTime2){
+							if(parseFloat(points1[dataColumn])>=MaxValue){
+								MaxValue = points1[dataColumn];
+							}else if(parseFloat(points1[dataColumn])<=minValue){
+								minValue = points1[dataColumn];
+								};
+							jjj++;
+						}else{
+							dataPoints.push({ 
+		                        x: points1[0].substring(0,points1[0].indexOf(".")),
+		                        y: parseFloat(MaxValue),
+							});
+							dataPoints.push({ 
+		                        x: points1[0].substring(0,points1[0].indexOf(".")),
+		                        y: parseFloat(minValue),
+							}); 
+							kkk++;
+							MaxValue = -500;
+							minValue = 500;
+							}
+						}
+						
+					};
+//End
+  				alert("dataPointsYYY = " + dataPoints[2] + ";iii = " + iii+ ";jjj = " + jjj +";kkk = " + kkk);
 				var DataPlotPoint = {
 						datasets: [{
 				            //label: 'Scatter Dataset',
@@ -122,16 +172,8 @@
 	    		    data: DataPlotPoint,
 	    		    options :optionsAxis
 	    		      });
-			},
+			}
         });
-        alert("OUTERCTX!")
-        /* 		var tt = getDataPointsFromCSV(csvData);
-		alert("tt = " + tt); */
-    	
-
-
-    	// ==========CSSSSSSV END===================
-    	
     });
     	</script>
 

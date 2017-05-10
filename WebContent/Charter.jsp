@@ -5,32 +5,13 @@
 <head>
 <script src="js/Chart.js"></script>
 <script src="js/jquery-3.1.1.js"></script>
+<script src="js/"></script>
 <style>
-    .box{width:30%; float:left;}
+    .box{width:60%; float:left;}
     .zone{width:100%; height:100%;}
 </style>
 <script>
-    var doughnutData = [
-    {
-        value: 300,
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Red"
-    }
-];
-    var linesData = {
-    	    labels: ["王大毛", "孫小毛", "曾甲仙", "胡蘭德", "吳美麗", "陳扁扁", "馬久久"],
-    	    datasets: [
-    	        {
-    	            label: "本週業績表",
-    	            fillColor: "rgba(220,220,220,0.5)",
-    	            strokeColor: "rgba(220,220,220,0.8)",
-    	            highlightFill: "rgba(220,220,220,0.75)",
-    	            highlightStroke: "rgba(220,220,220,1)",
-    	            data: [65, 59, 80, 81, 56, 55, 40]
-    	        }
-    	    ]
-    	};
+
 	
 	// TESTTTTTTT
 	var lineAxis = {
@@ -44,10 +25,17 @@
     var optionsAxis = {
         scales: {
             xAxes: [{
-                type: 'linear',
+                //type: 'linear',
+                type:'time',
                 position: 'bottom'
+
+                
             }]
-        }
+        },
+        tooltips:{
+			mode: 'index',
+			intersect: true
+            }
     };
 
 
@@ -100,8 +88,8 @@
     
     $(function(){
         // Line Chart
-    	var ctx_Line = document.getElementById("charterLine").getContext("2d");
-    	var myLine = new Chart(ctx_Line,{type:'line',data:lineAxis,options:optionsAxis});
+    	//var ctx_Line = document.getElementById("charterLine").getContext("2d");
+    	//var myLine = new Chart(ctx_Line,{type:'line',data:lineAxis,options:optionsAxis});
 
     	// Bar Chart
     	var ctx_Bar = document.getElementById("charterBar").getContext("2d");
@@ -124,9 +112,11 @@
     	//  ============CSSSSSSV TEST==============
 		var dataLabel = [];
 		var dataPoints = [];
-		
+		var urlcsv  = "Data/gpssensor.csv";
+		var urlcsv1 = "Data/daja.csv";
+		var urlcsv0 = "Data/dataPoints.csv"
         $.ajax({
-			url:"Data/gpssensor.csv",
+			url:urlcsv1,
 			dataType:"text",
 			success: function(data) {
 				
@@ -134,28 +124,33 @@
 	            var points = [];
 
 	            csvLines = data.split(/\n+/);
-	            alert("csvLines[1] = " + csvLines[1,0]);
+	            alert("AA:csvLines[1] = " + csvLines[1,0] + "csvLines.length = " + csvLines.length);
 	            for (var i = 0; i < csvLines.length; i++){
-	                if (csvLines[i].length > 0) {
-	                    points = csvLines[i].split(",");
-	                    dataPoints.push({ 
-	                        x: parseFloat(points[0]), 
-	                        y: parseFloat(points[3]) 		
-	                    });
-	                }
+	            	//for (var i = 0; i < 3000; i++){
+		                if (csvLines[i].length > 0) {
+		                    points = csvLines[i].split(",");
+		                    if(Math.abs(points[3])>=200){
+			                    dataPoints.push({ 
+			                        x: points[0],
+			                        y: parseFloat(points[3]),
+			                        r: 5 		
+			                    });
+		                    }
+			                    
+		                }
 	            };
-				alert("dataPointsYYY = " + dataPoints);
+				alert("dataPointsYYY = " + dataPoints[2]);
 				var DataPlotPoint = {
 						datasets: [{
-				            label: 'Scatter Dataset',
+				            //label: 'Scatter Dataset',
 				            data: dataPoints
 				        }]
 						};
 	            var ctx_CSVLine = document.getElementById("charterCSVLine").getContext("2d");
 	            var CSVChart = new Chart(ctx_CSVLine, {
-	    		    type:"line",
+	    		    type:"bubble",
 	    		    data: DataPlotPoint,
-	    		    options : optionsAxis
+	    		    options :optionsAxis
 	    		      });
 			},
         });

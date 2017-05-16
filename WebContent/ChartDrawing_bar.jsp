@@ -142,7 +142,7 @@
 						}
 						
 					};
-	            
+	          	
 				alert("dataPointsYYY = " + dataPoints[2]);
 				var DataPlotPoint = {
 						labels: dataLabel,

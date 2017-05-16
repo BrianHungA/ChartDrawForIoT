@@ -7,7 +7,7 @@
 <title>Home Page</title>
 </head>
 <body>
-	<form name="myForm" action="HelloWorld">
+	<form name="myForm" action="ChartDrawing_line.jsp">
 		UserName:<input type="text" name="userName"/>
 		<br>
 		FileName:<input type="text" name="chartNames"/>

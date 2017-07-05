@@ -15,7 +15,9 @@ public class HelloWorld extends HttpServlet {
 	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse rep) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
 		rep.setContentType("text/html");
+		
 
 		// Actual logic goes here.
 		String userName = req.getParameter("userName");

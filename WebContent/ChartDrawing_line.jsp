@@ -5,7 +5,6 @@
 <head>
 <script src="js/Chart.js"></script>
 <script src="js/jquery-3.1.1.js"></script>
-<script src="js/"></script>
 <style>
     .box{width:60%; float:left;}
     .zone{width:100%; height:100%;}
@@ -78,7 +77,7 @@
     	});
 
     	//index.jsp TEST
-    	alert("123");
+<%--     	alert("123");
     	<% 
     		String reqUserName = request.getParameter("userName");
     		String reqChartName = request.getParameter("chartNames");
@@ -87,15 +86,16 @@
     	var userName1 = "<%=reqUserName%>";
     	var chartName1 = "<%=reqChartName%>";
     	alert("userName = " + userName1 + ";ChartName = " + chartName1);
-    	//  ============CSSSSSSV TEST==============
+ --%>    	//  ============CSSSSSSV TEST==============
 		var dataLabel = [];
 		var dataPoints = [];
 //		var urlcsv  = "Data/gpssensor.csv";
-		var urlcsv1 = "Data/daja.csv";
+//		var urlcsv1 = "Data/daja.csv";
+		var urlcsv_mingshen_2 = "Data/"+ chartName1;
 //		var urlcsv0 = "Data/dataPoints.csv"
 //		var urlcsvGit = "https://raw.githubusercontent.com/BrianHungA/ChartDraw/master/WebContent/Data/daja.csv";
         $.ajax({
-			url:urlcsv1,
+			url:urlcsv_mingshen_2,
 			dataType:"text",
 			success: function(data) {
 				
@@ -104,7 +104,7 @@
 
 	            csvLines = data.split(/\n+/);
 	            alert("AA:csvLines[1] = " + csvLines[1] + "csvLines.length = " + csvLines.length);
-	            //§ä¤j©ó¨â¦ÊªºÂI¡A¥þ³¡Show¥X¨Ó
+	            //ï¿½ï¿½jï¿½ï¿½ï¿½Êªï¿½ï¿½Iï¿½Aï¿½ï¿½ï¿½ï¿½Showï¿½Xï¿½ï¿½
 /*   	            for (var i = 0; i < csvLines.length; i++){
 		                if (csvLines[i].length > 0) {
 		                    points = csvLines[i].split(",");
@@ -178,7 +178,7 @@
     	</script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=BIG5">
-<title>Insert title here</title>
+<title>Analysis Result</title>
 </head>
 <body>
 	<div class="box">

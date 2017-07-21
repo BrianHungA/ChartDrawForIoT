@@ -10,8 +10,8 @@
     .zone{width:100%; height:100%;}
 </style>
 <script>
-
-	
+	var outputTarget = 200;
+	alert("out = " + outputTarget);
 
     var BarData = {
     	    labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -40,6 +40,11 @@
     	    ]
     	};
     var optionsAxis = {
+            "horizontalLine": [{
+        		y: outputTarget,
+        		style: "#A21D21"
+        		/* text: "target" */
+            }],
             scales: {
                 xAxes: [{
                     //type: 'linear',
@@ -50,21 +55,33 @@
                 }]
             },
             tooltips:{
-    			mode: 'index',
-    			intersect: true
-                }
+    			mode: 'nearest',
+    			intersect: true,
+    			
+                },
+ 
         };
     $(function(){
+
         // Line Chart
     	//var ctx_Line = document.getElementById("charterLine").getContext("2d");
     	//var myLine = new Chart(ctx_Line,{type:'line',data:lineAxis,options:optionsAxis});
-
+		
     	// Bar Chart
     	var ctx_Bar = document.getElementById("charterBar").getContext("2d");
     	var myBar =new Chart(ctx_Bar, {
     	    type: "bar",
     	    data: BarData,
     	    options: {
+    	    	title: {
+    	    	      display: true,
+    	    	      text: 'Chart.js Draw Line On Chart'
+    	    	    },
+                    horizontalLine: [{
+                		y: outputTarget,
+                		style: "#A21D21"
+                		/* text: "target" */
+                    }],
     	        scales: {
     	            xAxes: [{
     	                stacked: true
@@ -73,11 +90,57 @@
     	                stacked: true
     	            }]
     	        }
+
     	    }
     	});
+    	var horizonalLinePlugin = {
+    			afterDraw: function(chartInstance) {
+    		    var yScale = chartInstance.scales["y-axis-0"];
+    		    var canvas = chartInstance.chart;
+    		    var ctx = canvas.ctx;
+    		    var index;
+    		    var line;
+    		    var style;
+
+    		    if (chartInstance.options.horizontalLine) {
+    		      for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+    		        line = chartInstance.options.horizontalLine[index];
+
+    		        if (!line.style) {
+    		          style = "rgba(169,169,169, .6)";
+    		        } else {
+    		          style = line.style;
+    		        }
+
+    		        if (line.y) {
+    		          yValue = yScale.getPixelForValue(line.y);
+    		        } else {
+    		          yValue = 0;
+    		        }
+
+    		        ctx.lineWidth = 3;
+
+    		        if (yValue) {
+    		          ctx.beginPath();
+    		          ctx.moveTo(0, yValue);
+    		          ctx.lineTo(canvas.width, yValue);
+    		          ctx.strokeStyle = style;
+    		          ctx.stroke();
+    		        }
+
+    		        if (line.text) {
+    		          ctx.fillStyle = style;
+    		          ctx.fillText(line.text, 0, yValue + ctx.lineWidth);
+    		        }
+    		      }
+    		      return;
+    		    };
+    		  }
+    		};
+    		Chart.pluginService.register(horizonalLinePlugin);
 
     	//index.jsp TEST
-<%--     	alert("123");
+     	alert("123");
     	<% 
     		String reqUserName = request.getParameter("userName");
     		String reqChartName = request.getParameter("chartNames");
@@ -86,12 +149,13 @@
     	var userName1 = "<%=reqUserName%>";
     	var chartName1 = "<%=reqChartName%>";
     	alert("userName = " + userName1 + ";ChartName = " + chartName1);
- --%>    	//  ============CSSSSSSV TEST==============
+     	//  ============CSSSSSSV TEST==============
 		var dataLabel = [];
 		var dataPoints = [];
 //		var urlcsv  = "Data/gpssensor.csv";
 //		var urlcsv1 = "Data/daja.csv";
-		var urlcsv_mingshen_2 = "Data/"+ chartName1;
+		var urlcsv_mingshen_2 = "Data/min_shen_2.csv";
+//		var urlcc = "D:/My Documents/Desktop/min_shen_2.csv"
 //		var urlcsv0 = "Data/dataPoints.csv"
 //		var urlcsvGit = "https://raw.githubusercontent.com/BrianHungA/ChartDraw/master/WebContent/Data/daja.csv";
         $.ajax({
@@ -181,9 +245,7 @@
 <title>Analysis Result</title>
 </head>
 <body>
-	<div class="box">
-    	<canvas id="charterLine" class="zone"></canvas>
-	</div>
+
 	<div class="box">
     	<canvas id="charterBar" class="zone"></canvas>
 	</div>

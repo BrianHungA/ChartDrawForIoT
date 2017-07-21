@@ -9,7 +9,7 @@
      <package name="default" extends="struts-default">
     
       <action name="ChartDrawing_line" class="com.iot.chartdrawing.action.ChartInfoAction" method="execute">          
-            <result name="success">/ChartDrawing_line.jsp</result>
+            <result name="success">/LineChart_forClass.jsp</result>
       </action>
       
    </package>

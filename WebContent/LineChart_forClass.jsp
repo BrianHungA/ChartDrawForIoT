@@ -228,9 +228,23 @@
 				};
 
 			var ctxVibrate = document.getElementById("canvasLineChart").getContext("2d");
-			var myFailTrendchart = new Chart(ctxVibrate, VibrateChartDraw);
-				
-		
+			var myVibratechart = new Chart(ctxVibrate, VibrateChartDraw);
+
+/* click point */
+			$(function(){
+				$("#canvasLineChart").click(
+						function(evt){
+							var activePoints = myVibratechart.getElementsAtEvent(evt);
+				            if(activePoints.length > 0) {
+				            	// get internal index of the chartjs object
+								var clickedElementindex = activePoints[0]["_index"];
+								var gpsClick = [gps_X[clickedElementindex],gps_Y[clickedElementindex]];
+								var googleMapUri = "https://www.google.com/#q=" + gpsClick[0] + "," + gpsClick[1];
+								window.open(googleMapUri);
+				            }
+							}
+						)
+				});		
 		
 	</script>
 </body>

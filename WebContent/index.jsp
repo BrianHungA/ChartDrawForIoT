@@ -16,5 +16,6 @@
 		<br>
 		<input type="submit" name="submitButton" value="submit"/>
 	</s:form>
+	<s:a href="https://www.google.com.tw/#q=25.073735,121.54992" target="_blank">G-Map</s:a>
 </body>
 </html>

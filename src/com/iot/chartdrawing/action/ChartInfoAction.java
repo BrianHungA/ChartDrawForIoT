@@ -50,7 +50,7 @@ public class ChartInfoAction {
 			System.out.println("userName = " + userName + " ; chartName = " + chartNames);
 			System.out.println(System.getProperty("user.dir"));
 
-			File myFile = new File("D:/My Documents/Desktop/daja.csv");		
+			File myFile = new File("D:/My Documents/Desktop/min_shen_2.csv");		
 			FileReader fileReader = new FileReader(myFile);
 			BufferedReader reader = new BufferedReader(fileReader);
 			
